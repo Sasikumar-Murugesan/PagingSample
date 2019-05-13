@@ -7,18 +7,27 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
     private val BASE_URL = "https://api.stackexchange.com/2.2/"
+    var instance: Retrofit? = null
     fun create(): Api {
-        val retrofit = Retrofit.Builder()
-            .addCallAdapterFactory(
-                RxJava2CallAdapterFactory.create()
-            )
-            .addConverterFactory(
-                GsonConverterFactory.create()
-            )
-            .baseUrl(BASE_URL)
-            .build()
+        return createRetrofitInstance().create(Api::class.java)
+    }
+    fun createRetrofitInstance(): Retrofit {
+        synchronized(this) {
+            if (instance == null) {
+                instance = Retrofit.Builder()
+                    .addCallAdapterFactory(
+                        RxJava2CallAdapterFactory.create()
+                    )
+                    .addConverterFactory(
+                        GsonConverterFactory.create()
+                    )
+                    .baseUrl(BASE_URL)
+                    .build()
+                return instance as Retrofit
+            }
+        }
 
-        return retrofit.create(Api::class.java)
+        return instance as Retrofit
     }
 }
 

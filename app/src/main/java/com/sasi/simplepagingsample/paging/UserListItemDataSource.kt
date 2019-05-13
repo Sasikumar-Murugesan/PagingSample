@@ -26,6 +26,9 @@ class UserListItemDataSource : PageKeyedDataSource<Int, UserItem.Item>() {
                     it?.body()?.items?.let {
                         if (it.size ==pageSize) {
                             callback.onResult(it, null, pageNo + 1)
+                        }else
+                        {
+                            callback.onResult(it, null, null)
                         }
 
                     }
@@ -45,6 +48,9 @@ class UserListItemDataSource : PageKeyedDataSource<Int, UserItem.Item>() {
                         if (it.size == pageSize) {
                             Log.v("s:","${it.get(0).websiteUrl}")
                             callback.onResult(it, pageSize+1)
+                        }else
+                        {
+                            callback.onResult(it, null)
                         }
                     }
                 }, this::errorResponse)

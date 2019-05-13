@@ -22,7 +22,10 @@ class StackUserViewModel(application: Application) : ObservableViewModel(applica
     init {
         var userListItemDataSourceFactory = UserListItemDataSourceFactory()
         liveDataSource = userListItemDataSourceFactory.itemLiveDataSource
-        var pagingConfig = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(UserListItemDataSource.pageSize).build()
+        var pagingConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(UserListItemDataSource.pageSize)
+            .build()
         userItemPagedList = LivePagedListBuilder(userListItemDataSourceFactory, pagingConfig).build()
     }
 
